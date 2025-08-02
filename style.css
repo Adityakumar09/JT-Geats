@@ -7,11 +7,11 @@
 
 :root {
     --primary-green: #1AC073;
-    --secondary-green: #27ae60;
+    --secondary-green: #2EBF91;
     --orange: #F3BA00;
     --orange-hover: #e67e22;
     --dark-text: #2c3e50;
-    --light-text: #666;
+    --light-text: #BEBEBE;
     --light-bg: #f8f9fa;
     --white: #ffffff;
     --border-color: #ddd;
@@ -95,6 +95,7 @@ body.modal-open {
 .icon-container {
     cursor: pointer;
     transition: transform 0.3s ease;
+    position: relative;
 }
 
 .icon-container:hover {
@@ -105,6 +106,30 @@ body.modal-open {
     color: white;
     width: 24px;
     height: 24px;
+}
+
+/* Cart Count Badge */
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--orange);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Open Sans', sans-serif;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cart-count.show {
+    opacity: 1;
 }
 
 /* Hero Section */
@@ -162,14 +187,12 @@ body.modal-open {
 }
 
 .search-input::placeholder {
-    color: #929292 ;
+    color: #929292;
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
     letter-spacing: -1.2%;
-
 }
-
 
 .search-btn {
     background: var(--orange);
@@ -203,9 +226,19 @@ body.modal-open {
 .chef-img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Adjusts image inside the box without cropping */
+    object-fit: contain;
 }
 
+.delivery-illustration {
+    width: 503px;
+    height: 402px;
+}
+
+.delivery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
 /* Home Kitchen Section */
 .home-kitchen {
@@ -229,14 +262,17 @@ body.modal-open {
     row-gap: 32px;
 }
 
+/* Exact Figma Card Dimensions */
 .food-card {
     background: white;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: all 0.3s ease;
     cursor: pointer;
-    /* height: 337px; */
+    width: 277px;
+    height: 337px;
+    opacity: 1;
 }
 
 .food-card:hover {
@@ -244,11 +280,15 @@ body.modal-open {
     box-shadow: var(--shadow-hover);
 }
 
+/* Exact Figma Image Dimensions */
 .food-card-image {
-    width: 100%;
-    height: 200px;
+    width: 277px;
+    height: 250px;
     position: relative;
     overflow: hidden;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    opacity: 1;
 }
 
 .food-card-image img {
@@ -275,63 +315,309 @@ body.modal-open {
     z-index: 2;
 }
 
+/* Exact Figma Text Dimensions */
+/* Food Card Fixes - Only updating card-related styles */
+
+/* Exact Figma Card Dimensions */
+/* Food Card Layout - Exact Figma Match */
+.food-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    width: 277px;
+    height: 337px;
+    opacity: 1;
+    position: relative;
+}
+
+.food-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Exact Figma Image Dimensions */
+.food-card-image {
+    width: 277px;
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    opacity: 1;
+}
+
+.food-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.food-card:hover .food-card-image img {
+    transform: scale(1.05);
+}
+
+/* Two-layer Discount Design */
+.discount-container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+}
+
+/* Gray Background Layer */
+.discount-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 30px;
+    background: var(--light-text);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    z-index: 1;
+}
+
+/* Yellow/Orange Percentage Layer */
+.discount-badge {
+    position: relative;
+    background: var(--orange);
+    color: rgb(0, 0, 0);
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center; 
+    border-radius: 0px !important;
+    width: 29px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    top: 0px;
+    left: 1.5px;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1;
+}
+
+/* Card Content - Only 2 Rows Layout */
 .food-card-content {
-    padding: 20px;
+    padding: 16px;
+    height: 87px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+/* Row 1: Title and Price */
+.food-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .food-card h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -1.2%;
+    margin: 0;
     color: var(--dark-text);
+    flex: 1;
 }
 
-.food-description {
-    font-size: 14px;
-    color: var(--light-text);
-    margin-bottom: 12px;
-    line-height: 1.4;
+.price {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -1.2%;
+    color: black;
+    margin-left: 16px;
 }
 
-.food-card-meta {
+/* Row 2: Rating/Time Container and Add Button */
+.food-card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+}
+
+.rating-time-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 121px;
+    height: 20px;
 }
 
 .rating {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: var(--light-text);
+    justify-content: center;
+    background-color: #F7F8FA;
+    border-radius: 5px;
+    width: 45px;
+    gap: 6px;
 }
 
-.price {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--primary-green);
+.rating .star-icon {
+    width: 12px;
+    height: 12px;
+}
+
+.rating-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: -1.2%;
+    color: #1B1C21;
+}
+
+/* Time Container (Minutes) - Exact Figma Specs */
+.time-container1{
+    width: 68px;
+    height: 20px;
+    background: #BEBEBE;
+    border-radius: 5px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.time-container {
+    width: 64px;
+    height: 20px;
+    background: #F7F8FA;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    opacity: 1;
+}
+
+.time-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: -1.2%;
+    color: black;
+    width: 50px;
+    width: 90%;
+}
+
+/* Quantity Controls - Same Row as Rating */
+.quantity-controls {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--orange);
+    border-radius: 8px;
+    width: 94px;
+    height: 25px;
+    opacity: 1;
+    left: -63px;
+
+}
+
+.quantity-controls.active {
+    display: flex;
+}
+
+.quantity-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 26px;
+    height: 25px;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    padding: 0;
+}
+
+.quantity-btn img {
+    width: 12px;
+    height: 12px;
+    filter: brightness(0) invert(1);
+}
+
+.quantity-count {
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+    font-size: 15px;
+    width: 41px;
+    height: 25px;
+    opacity: 1;
+    border-top: 1px solid var(--orange);
+    border-bottom: 1px solid var(--orange);
+    text-align: center;
+    line-height: 20px;
+    letter-spacing: -1.2%;
+    background-color: white;
+}
+.quantity-count .add-btn{
+    width: 17px;
+    height: 16px;
+    opacity: 1;
+    top: 4.71px;
+    left: 5.55px;
+    border-width: 3.5px;
 }
 
 .add-btn {
     background: var(--orange);
     color: white;
     border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
+    padding: 6px 12px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 100%;
-    font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 22px;
+    height: 20px;
+    opacity: 1;
+    border-radius: 5px;
+}
+
+.add-btn.hide {
+    display: none;
 }
 
 .add-btn:hover {
     background: var(--orange-hover);
     transform: translateY(-2px);
 }
+
+.add-btn .plus-icon {
+    width: 15px;
+    height: 14px;
+    opacity: 1;
+    top: 4.71px;
+    left: 5.55px;
+    border-width: 3.5px;
+    filter: brightness(0) invert(1);
+}
+
 
 /* Popular Items Carousel */
 .popular-items {
@@ -408,7 +694,6 @@ body.modal-open {
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: all 0.3s ease;
-    
 }
 
 .popular-item:hover {
@@ -596,16 +881,6 @@ body.modal-open {
     transform: translateY(-2px);
 }
 
-.delivery-illustration {
-    width: 503px;
-    height: 402px;
-}
-
-.delivery-svg {
-    width: 100%;
-    height: 100%;
-}
-
 /* Footer */
 .footer {
     background-color: var(--primary-green);
@@ -668,9 +943,9 @@ body.modal-open {
 
 .footer-line {
     width: 100%;
-    height: 2px;  /* Thin line */
-    background-color: rgba(255, 255, 255, 0.4);  /* Semi-transparent white line */
-    margin-top: 24px;  /* Space between content & line */
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.4);
+    margin-top: 24px;
 }
 
 /* Modal Styles */
@@ -819,6 +1094,7 @@ body.modal-open {
     
     .food-grid {
         grid-template-columns: repeat(3, 1fr);
+        justify-items: center;
     }
     
     .carousel-wrapper {
@@ -855,6 +1131,7 @@ body.modal-open {
     .food-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
+        justify-items: center;
     }
     
     .form-content {
@@ -914,6 +1191,7 @@ body.modal-open {
     
     .food-grid {
         grid-template-columns: 1fr;
+        justify-items: center;
     }
     
     .carousel-wrapper {

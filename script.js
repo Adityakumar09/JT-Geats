@@ -8,8 +8,7 @@ const foodData = {
             rating: 4.7,
             reviews: "50-79 min",
             image: "./assets/img 1.jpg",
-            discount: "20%",
-            description: "Fresh homemade pizza with authentic ingredients"
+            discount: "20%"
         },
         {
             id: 2,
@@ -17,8 +16,7 @@ const foodData = {
             price: 123,
             rating: 4.7,
             reviews: "50-79 min",
-            image: "./assets/img 2.jpg",
-            description: "Delicious homemade pizza crafted with love"
+            image: "./assets/img 2.jpg"
         },
         {
             id: 3,
@@ -27,8 +25,7 @@ const foodData = {
             rating: 4.7,
             reviews: "50-79 min", 
             image: "./assets/img 3.jpg",
-            discount: "30%",
-            description: "Traditional homemade pizza recipe"
+            discount: "30%"
         },
         {
             id: 4,
@@ -36,8 +33,7 @@ const foodData = {
             price: 190,
             rating: 4.7,
             reviews: "50-79 min",
-            image: "./assets/img 4.jpg",
-            description: "Artisan homemade pizza with premium toppings"
+            image: "./assets/img 4.jpg"
         },
         {
             id: 5,
@@ -46,8 +42,7 @@ const foodData = {
             rating: 4.7,
             reviews: "50-79 min",
             image: "./assets/img 5.jpg",
-            discount: "20%",
-            description: "Budget-friendly homemade pizza"
+            discount: "20%"
         },
         {
             id: 6,
@@ -56,8 +51,7 @@ const foodData = {
             rating: 4.7,
             reviews: "50-79 min",
             image: "./assets/img 6.jpg",
-            discount: "30%",
-            description: "Gourmet homemade pizza experience"
+            discount: "30%"
         },
         {
             id: 7,
@@ -65,8 +59,7 @@ const foodData = {
             price: 190,
             rating: 4.7,
             reviews: "50-79 min",
-            image: "./assets/img 7.jpg",
-            description: "Classic homemade pizza with fresh ingredients"
+            image: "./assets/img 7.jpg"
         },
         {
             id: 8,
@@ -75,8 +68,7 @@ const foodData = {
             rating: 4.7,
             reviews: "50-79 min",
             image: "./assets/img 8.jpg",
-            discount: "20%",
-            description: "Specialty homemade pizza with unique flavors"
+            discount: "20%"
         },
         {
             id: 9,
@@ -84,9 +76,8 @@ const foodData = {
             price: 190,
             rating: 4.7,
             reviews: "50-79 min",
-            image: "./assets/img 8.jpg",
-            discount: "20%",
-            description: "Specialty homemade pizza with unique flavors"
+            image: "./assets/img 1.jpg",
+            discount: "20%"
         },
         {
             id: 10,
@@ -94,9 +85,8 @@ const foodData = {
             price: 190,
             rating: 4.7,
             reviews: "50-79 min",
-            image: "./assets/img 8.jpg",
-            discount: "20%",
-            description: "Specialty homemade pizza with unique flavors"
+            image: "./assets/img 2.jpg",
+            discount: "20%"
         },
         {
             id: 11,
@@ -104,9 +94,8 @@ const foodData = {
             price: 190,
             rating: 4.7,
             reviews: "50-79 min",
-            image: "./assets/img 8.jpg",
-            discount: "20%",
-            description: "Specialty homemade pizza with unique flavors"
+            image: "./assets/img 3.jpg",
+            discount: "20%"
         },
         {
             id: 12,
@@ -114,9 +103,8 @@ const foodData = {
             price: 190,
             rating: 4.7,
             reviews: "50-79 min",
-            image: "./assets/img 8.jpg",
-            discount: "20%",
-            description: "Specialty homemade pizza with unique flavors"
+            image: "./assets/img 4.jpg",
+            discount: "20%"
         }
     ],
     popular: [
@@ -126,8 +114,7 @@ const foodData = {
             price: 190,
             rating: 4.7,
             reviews: "50-79 min",
-            image: "./assets/slider 1.jpg",
-            description: "Most popular homemade pizza"
+            image: "./assets/slider 1.jpg"
         },
         {
             id: 10,
@@ -136,8 +123,7 @@ const foodData = {
             rating: 4.5,
             reviews: "1-100 min",
             image: "./assets/slider 2.jpg",
-            discount: "35%",
-            description: "Authentic tandoor-cooked chicken"
+            discount: "35%"
         },
         {
             id: 11,
@@ -146,41 +132,77 @@ const foodData = {
             rating: 4.1,
             reviews: "244 min",
             image: "./assets/slider 3.jpg",
-            discount: "30%",
-            description: "Spicy Indo-Chinese chili chicken"
+            discount: "30%"
         }
     ]
 };
 
-// Optimized food card creation with proper image handling
+// Cart state management
+const cartState = {
+    items: new Map(),
+    totalCount: 0
+};
+
 function createFoodCard(item, isPopular = false) {
+    const quantity = cartState.items.get(item.id) || 0;
+    const showQuantityControls = quantity > 0;
+    
     return `
-        <div class="food-card ${isPopular ? 'popular-item' : ''}" data-id="${item.id}">
+        <article class="food-card ${isPopular ? 'popular-item' : ''}" data-id="${item.id}">
             <div class="food-card-image">
                 <img src="${item.image}" alt="${item.name}" 
-                     onerror="this.src='./assets/placeholder.jpg'; this.onerror=null;"
-                     loading="lazy">
-                ${item.discount ? `<div class="discount-badge">${item.discount}</div>` : ''}
+                    onerror="this.src='./assets/placeholder.jpg'; this.onerror=null;"
+                    loading="lazy">
+                ${item.discount ? `
+                    <div class="discount-container">
+                        <div class="discount-bg"></div>
+                        <div class="discount-badge">${item.discount}</div>
+                    </div>
+                ` : ''}
             </div>
             <div class="food-card-content">
-                <h3>${item.name}</h3>
-                <p class="food-description">${item.description || ''}</p>
-                <div class="food-card-meta">
-                    <div class="rating">
-                        <span>⭐ ${item.rating}</span>
-                        <span>(${item.reviews})</span>
-                    </div>
+                <!-- Row 1: Title and Price -->
+                <div class="food-card-header">
+                    <h3>${item.name}</h3>
                     <div class="price">₹${item.price}</div>
                 </div>
-                <button class="add-btn" onclick="addToCart(${item.id})">
-                    <span>🛒</span> Add
-                </button>
+                
+                <!-- Row 2: Rating/Time and Add Button -->
+                <div class="food-card-footer">
+                    <div class="rating-time-container">
+                        <div class="rating">
+                            <img src="./assets/star.svg" alt="Star" class="star-icon">
+                            <span class="rating-text">${item.rating}</span>
+                        </div>
+                        <div class="time-container1">
+                            <div class="time-container">
+                                <span class="time-text">${item.reviews}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quantity-controls ${showQuantityControls ? 'active' : ''}" id="quantity-${item.id}">
+                        <button class="quantity-btn" onclick="decreaseQuantity(${item.id})" aria-label="Decrease quantity">
+                            <img src="./assets/minus.svg" alt="Minus" class="minus-icon">
+                        </button>
+                        <span class="quantity-count" id="count-${item.id}">${quantity}</span>
+                        <button class="quantity-btn" onclick="increaseQuantity(${item.id})" aria-label="Increase quantity">
+                            <img src="./assets/plus.svg" alt="Plus" class="plus-icon">
+                        </button>
+                    </div>
+                    
+                    <button class="add-btn ${showQuantityControls ? 'hide' : ''}" onclick="addToCart(${item.id})" id="add-btn-${item.id}">
+                        <img src="./assets/plus.svg" alt="Plus" class="plus-icon">
+                    </button>
+                </div>
             </div>
-        </div>
+        </article>
     `;
 }
 
-// Enhanced Application Class with optimized performance
+
+
+// Enhanced Application Class
 class JTGeatsApp {
     constructor() {
         this.currentSlide = 0;
@@ -202,7 +224,7 @@ class JTGeatsApp {
         this.setupModal();
         this.setupVideoPlayer();
         this.startAutoSlide();
-        this.setupImageErrorHandling();
+        this.updateCartDisplay();
     }
 
     getSlidesToShow() {
@@ -317,18 +339,6 @@ class JTGeatsApp {
                 this.handleSwipe();
                 this.startAutoSlide();
             }, { passive: true });
-
-            // Mouse wheel support
-            track.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                this.stopAutoSlide();
-                if (e.deltaY > 0) {
-                    this.nextSlide();
-                } else {
-                    this.previousSlide();
-                }
-                this.startAutoSlide();
-            }, { passive: false });
         }
     }
 
@@ -440,9 +450,8 @@ class JTGeatsApp {
     setupVideoPlayer() {
         const video = document.getElementById('videoPlayer');
         const overlay = document.getElementById('videoOverlay');
-        const playBtn = document.getElementById('playBtn');
 
-        if (video && overlay && playBtn) {
+        if (video && overlay) {
             overlay.addEventListener('click', () => this.toggleVideo());
 
             video.addEventListener('ended', () => {
@@ -480,29 +489,12 @@ class JTGeatsApp {
         }
     }
 
-    setupImageErrorHandling() {
-        // Create a placeholder image if it doesn't exist
-        const img = new Image();
-        img.onerror = () => {
-            // Create a simple placeholder SVG as data URL
-            const placeholderSVG = `data:image/svg+xml,${encodeURIComponent(`
-                <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="200" height="200" fill="#f0f0f0"/>
-                    <text x="100" y="100" text-anchor="middle" dy="0.3em" 
-                          font-family="Arial" font-size="16" fill="#999">
-                        No Image
-                    </text>
-                </svg>
-            `)}`;
-            
-            // Replace all failed images with placeholder
-            document.querySelectorAll('img').forEach(image => {
-                if (!image.complete || image.naturalHeight === 0) {
-                    image.src = placeholderSVG;
-                }
-            });
-        };
-        img.src = './assets/placeholder.jpg';
+    updateCartDisplay() {
+        const cartCountElement = document.getElementById('cartCount');
+        if (cartCountElement) {
+            cartCountElement.textContent = cartState.totalCount;
+            cartCountElement.classList.toggle('show', cartState.totalCount > 0);
+        }
     }
 
     handleSearch(query) {
@@ -510,8 +502,7 @@ class JTGeatsApp {
         
         const allItems = [...foodData.pizzas, ...foodData.popular];
         const filteredItems = allItems.filter(item => 
-            item.name.toLowerCase().includes(query.toLowerCase()) ||
-            (item.description && item.description.toLowerCase().includes(query.toLowerCase()))
+            item.name.toLowerCase().includes(query.toLowerCase())
         );
         
         if (filteredItems.length > 0) {
@@ -569,31 +560,6 @@ class JTGeatsApp {
             header.style.background = '#1AC073';
             header.style.backdropFilter = 'none';
         }
-        
-        this.updateActiveNavLink();
-    }
-
-    updateActiveNavLink() {
-        const sections = ['home', 'menu'];
-        const scrollY = window.scrollY;
-        const headerHeight = document.querySelector('.header').offsetHeight;
-        
-        sections.forEach(sectionId => {
-            const section = document.getElementById(sectionId);
-            const navLink = document.querySelector(`a[href="#${sectionId}"]`);
-            
-            if (section && navLink) {
-                const sectionTop = section.offsetTop - headerHeight - 50;
-                const sectionBottom = sectionTop + section.offsetHeight;
-                
-                if (scrollY >= sectionTop && scrollY < sectionBottom) {
-                    document.querySelectorAll('.nav-link').forEach(link => 
-                        link.classList.remove('active')
-                    );
-                    navLink.classList.add('active');
-                }
-            }
-        });
     }
 
     showNotification(message, type = 'info') {
@@ -648,29 +614,58 @@ class JTGeatsApp {
     }
 }
 
-// Utility functions
+// Cart functionality
 function addToCart(itemId) {
     const item = [...foodData.pizzas, ...foodData.popular].find(item => item.id === itemId);
-    if (item && window.app) {
-        console.log('Added to cart:', item);
-        showCartAnimation();
+    if (item) {
+        cartState.items.set(itemId, 1);
+        cartState.totalCount = Array.from(cartState.items.values()).reduce((sum, qty) => sum + qty, 0);
+        
+        updateItemDisplay(itemId);
+        window.app.updateCartDisplay();
         window.app.showNotification(`${item.name} added to cart!`, 'success');
+        
+        console.log('Added to cart:', item);
     }
 }
 
-function showCartAnimation() {
-    const cartIcon = document.querySelector('.nav-icons .icon-container:last-child');
-    if (cartIcon) {
-        cartIcon.style.transform = 'scale(1.2)';
-        cartIcon.style.background = 'rgba(255,255,255,0.2)';
-        cartIcon.style.borderRadius = '50%';
-        cartIcon.style.padding = '8px';
-        
-        setTimeout(() => {
-            cartIcon.style.transform = 'scale(1)';
-            cartIcon.style.background = 'none';
-            cartIcon.style.padding = '0';
-        }, 300);
+function increaseQuantity(itemId) {
+    const currentQty = cartState.items.get(itemId) || 0;
+    cartState.items.set(itemId, currentQty + 1);
+    cartState.totalCount = Array.from(cartState.items.values()).reduce((sum, qty) => sum + qty, 0);
+    
+    updateItemDisplay(itemId);
+    window.app.updateCartDisplay();
+}
+
+function decreaseQuantity(itemId) {
+    const currentQty = cartState.items.get(itemId) || 0;
+    if (currentQty > 1) {
+        cartState.items.set(itemId, currentQty - 1);
+    } else {
+        cartState.items.delete(itemId);
+    }
+    cartState.totalCount = Array.from(cartState.items.values()).reduce((sum, qty) => sum + qty, 0);
+    
+    updateItemDisplay(itemId);
+    window.app.updateCartDisplay();
+}
+
+function updateItemDisplay(itemId) {
+    const quantity = cartState.items.get(itemId) || 0;
+    const quantityControls = document.getElementById(`quantity-${itemId}`);
+    const addBtn = document.getElementById(`add-btn-${itemId}`);
+    const countElement = document.getElementById(`count-${itemId}`);
+    
+    if (quantityControls && addBtn && countElement) {
+        if (quantity > 0) {
+            quantityControls.classList.add('active');
+            addBtn.style.display = 'none';
+            countElement.textContent = quantity;
+        } else {
+            quantityControls.classList.remove('active');
+            addBtn.style.display = 'flex';
+        }
     }
 }
 
@@ -679,7 +674,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.app = new JTGeatsApp();
 });
 
-// Handle visibility change for video performance
+// Handle visibility change for performance
 document.addEventListener('visibilitychange', () => {
     if (document.hidden && window.app) {
         window.app.stopAutoSlide();
