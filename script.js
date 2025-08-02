@@ -1,4 +1,4 @@
-// Enhanced food data with proper image paths
+// Enhanced food data with more popular items
 const foodData = {
     pizzas: [
         {
@@ -109,7 +109,7 @@ const foodData = {
     ],
     popular: [
         {
-            id: 9,
+            id: 101,
             name: "Home made pizza",
             price: 190,
             rating: 4.7,
@@ -117,7 +117,7 @@ const foodData = {
             image: "./assets/slider 1.jpg"
         },
         {
-            id: 10,
+            id: 102,
             name: "Tandoor Chicken",
             price: 164,
             rating: 4.5,
@@ -126,13 +126,57 @@ const foodData = {
             discount: "35%"
         },
         {
-            id: 11,
+            id: 103,
             name: "Chili Chicken",
             price: 116,
             rating: 4.1,
             reviews: "244 min",
             image: "./assets/slider 3.jpg",
             discount: "30%"
+        },
+        {
+            id: 104,
+            name: "Butter Chicken",
+            price: 250,
+            rating: 4.8,
+            reviews: "45-60 min",
+            image: "./assets/img 1.jpg",
+            discount: "25%"
+        },
+        {
+            id: 105,
+            name: "Chicken Biryani",
+            price: 320,
+            rating: 4.9,
+            reviews: "60-80 min",
+            image: "./assets/img 2.jpg",
+            discount: "15%"
+        },
+        {
+            id: 106,
+            name: "Paneer Tikka",
+            price: 180,
+            rating: 4.6,
+            reviews: "30-45 min",
+            image: "./assets/img 3.jpg"
+        },
+        {
+            id: 107,
+            name: "Fish Curry",
+            price: 280,
+            rating: 4.4,
+            reviews: "40-55 min",
+            image: "./assets/img 4.jpg",
+            discount: "20%"
+        },
+        {
+            id: 108,
+            name: "Mutton Curry",
+            price: 350,
+            rating: 4.7,
+            reviews: "70-90 min",
+            image: "./assets/img 5.jpg",
+            discount: "10%"
         }
     ]
 };
@@ -143,6 +187,7 @@ const cartState = {
     totalCount: 0
 };
 
+// Unified food card creation function for both grid and slider
 function createFoodCard(item, isPopular = false) {
     const quantity = cartState.items.get(item.id) || 0;
     const showQuantityControls = quantity > 0;
@@ -200,13 +245,11 @@ function createFoodCard(item, isPopular = false) {
     `;
 }
 
-
-
-// Enhanced Application Class
+// Enhanced Application Class with Fixed Carousel
 class JTGeatsApp {
     constructor() {
         this.currentSlide = 0;
-        this.slidesToShow = this.getSlidesToShow();
+        this.slidesToShow = 3; // Always show 3 items as per Figma
         this.totalSlides = foodData.popular.length;
         this.autoSlideInterval = null;
         this.isVideoPlaying = false;
@@ -225,6 +268,7 @@ class JTGeatsApp {
         this.setupVideoPlayer();
         this.startAutoSlide();
         this.updateCartDisplay();
+        this.setupCarouselHoverControls();
     }
 
     getSlidesToShow() {
@@ -370,10 +414,43 @@ class JTGeatsApp {
     updateCarousel() {
         const track = document.getElementById('carouselTrack');
         if (track) {
-            const slideWidth = 100 / this.slidesToShow;
-            const translateX = -this.currentSlide * (100 / this.totalSlides) * this.slidesToShow;
-            track.style.transform = `translateX(${translateX}%)`;
+            // Calculate slide width based on container and gap
+            const slideWidth = (277 + 24); // card width + gap
+            const translateX = -this.currentSlide * slideWidth;
+            track.style.transform = `translateX(${translateX}px)`;
         }
+    }
+
+    setupCarouselHoverControls() {
+        const carouselContainer = document.querySelector('.carousel-container');
+        const carouselWrapper = document.querySelector('.carousel-wrapper');
+        const carouselTrack = document.querySelector('.carousel-track');
+        
+        // Hover elements for comprehensive coverage
+        const hoverElements = [carouselContainer, carouselWrapper, carouselTrack].filter(Boolean);
+        
+        hoverElements.forEach(element => {
+            if (element) {
+                element.addEventListener('mouseenter', () => {
+                    this.stopAutoSlide();
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    this.startAutoSlide();
+                });
+            }
+        });
+        
+        // Also handle arrow buttons
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        [prevBtn, nextBtn].forEach(btn => {
+            if (btn) {
+                btn.addEventListener('mouseenter', () => this.stopAutoSlide());
+                btn.addEventListener('mouseleave', () => this.startAutoSlide());
+            }
+        });
     }
 
     startAutoSlide() {
@@ -612,11 +689,20 @@ class JTGeatsApp {
             timeout = setTimeout(later, wait);
         };
     }
+
+    // Method to refresh all displays when cart changes
+    refreshDisplays() {
+        this.renderFoodItems();
+        this.renderPopularItems();
+        this.updateCartDisplay();
+    }
 }
 
-// Cart functionality
+// Enhanced Cart functionality that works for both grid and slider
 function addToCart(itemId) {
-    const item = [...foodData.pizzas, ...foodData.popular].find(item => item.id === itemId);
+    const allItems = [...foodData.pizzas, ...foodData.popular];
+    const item = allItems.find(item => item.id === itemId);
+    
     if (item) {
         cartState.items.set(itemId, 1);
         cartState.totalCount = Array.from(cartState.items.values()).reduce((sum, qty) => sum + qty, 0);

@@ -317,9 +317,6 @@ body.modal-open {
 
 /* Exact Figma Text Dimensions */
 /* Food Card Fixes - Only updating card-related styles */
-
-/* Exact Figma Card Dimensions */
-/* Food Card Layout - Exact Figma Match */
 .food-card {
     background: white;
     border-radius: 10px;
@@ -639,18 +636,39 @@ body.modal-open {
     margin-bottom: 48px;
 }
 
-.carousel-wrapper {
-    overflow: hidden;
-    margin: 0 80px;
-    border-radius: 12px;
-}
-
+/* Carousel Track Optimized for 3 Items Display */
 .carousel-track {
     display: flex;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     gap: 24px;
     padding: 20px 0;
-    padding: 0 20px;
+    width: fit-content; /* Important for proper sliding */
+}
+
+/* Ensure popular items maintain exact same styling as food cards */
+.popular-item {
+    width: 277px;
+    height: 337px;
+    flex-shrink: 0;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.popular-item:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Ensure carousel wrapper has proper width for 3 items */
+.carousel-wrapper {
+    overflow: hidden;
+    margin: 0 80px;
+    width: calc(277px * 3 + 24px * 2); /* 3 cards + 2 gaps */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .carousel-btn {
@@ -685,21 +703,6 @@ body.modal-open {
     right: 20px;
 }
 
-.popular-item {
-    min-width: 300px;
-    max-width: 300px;
-    flex-shrink: 0;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: all 0.3s ease;
-}
-
-.popular-item:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-hover);
-}
 
 .request-dish-btn {
     background: var(--primary-green);
