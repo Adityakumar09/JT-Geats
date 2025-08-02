@@ -527,13 +527,34 @@ class JTGeatsApp {
     setupVideoPlayer() {
         const video = document.getElementById('videoPlayer');
         const overlay = document.getElementById('videoOverlay');
+        const playBtn = document.getElementById('playBtn');
+        const videoContainer = document.querySelector('.video-container');
 
-        if (video && overlay) {
-            overlay.addEventListener('click', () => this.toggleVideo());
+        if (video && overlay && playBtn) {
+            // Handle overlay click
+            overlay.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleVideo();
+            });
 
+            // Handle video container click (when video is playing)
+            videoContainer.addEventListener('click', () => {
+                if (this.isVideoPlaying) {
+                    this.toggleVideo();
+                }
+            });
+
+            // Handle play button click
+            playBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleVideo();
+            });
+
+            // Video event listeners
             video.addEventListener('ended', () => {
                 this.isVideoPlaying = false;
                 overlay.classList.remove('hidden');
+                this.showNotification('Video ended', 'info');
             });
 
             video.addEventListener('pause', () => {
@@ -545,22 +566,56 @@ class JTGeatsApp {
                 this.isVideoPlaying = true;
                 overlay.classList.add('hidden');
             });
+
+            video.addEventListener('loadstart', () => {
+                console.log('Video loading started');
+            });
+
+            video.addEventListener('canplay', () => {
+                console.log('Video can start playing');
+            });
+
+            video.addEventListener('error', (e) => {
+                console.error('Video error:', e);
+                this.showNotification('Error loading video', 'error');
+            });
+
+            // Handle spacebar for play/pause when video container is focused
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' && e.target.closest('.video-container')) {
+                    e.preventDefault();
+                    this.toggleVideo();
+                }
+            });
         }
     }
 
     toggleVideo() {
         const video = document.getElementById('videoPlayer');
+        const overlay = document.getElementById('videoOverlay');
         
         if (video) {
             if (this.isVideoPlaying) {
                 video.pause();
             } else {
+                // Reset video to beginning if it ended
+                if (video.ended) {
+                    video.currentTime = 0;
+                }
+                
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log('Video play failed:', error);
-                        this.showNotification('Unable to play video', 'error');
-                    });
+                    playPromise
+                        .then(() => {
+                            // Video started playing successfully
+                            console.log('Video playing');
+                        })
+                        .catch(error => {
+                            console.log('Video play failed:', error);
+                            this.showNotification('Unable to play video', 'error');
+                            this.isVideoPlaying = false;
+                            overlay.classList.remove('hidden');
+                        });
                 }
             }
         }

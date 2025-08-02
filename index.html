@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Squada+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -96,21 +97,21 @@
                 <h2>We are providing best home cooked food delivery service.</h2>
                 <p>Away from home and craving the tasty homemade recipes? Choose from a selection of our delicious home cooked dishes.</p>
                 <div class="video-container">
-                    <video class="video-player" id="videoPlayer" poster="./assets/video-poster.jpg">
+                    <video class="video-player" id="videoPlayer" poster="./assets/video-poster.png">
                         <source src="./assets/sample-video.mp4" type="video/mp4">
+                        <source src="./assets/sample-video.webm" type="video/webm">
                         Your browser does not support the video tag.
                     </video>
                     <div class="video-overlay" id="videoOverlay">
-                        <button class="play-btn" id="playBtn">
-                            <svg class="play-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5,3 19,12 5,21"></polygon>
-                            </svg>
+                        <button class="play-btn" id="playBtn" aria-label="Play video">
+                            <img class="play-icon" src="./assets/Arrow.svg" alt="arrow">
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Contact Form Section -->
     <section class="contact-form">
